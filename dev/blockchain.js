@@ -1,9 +1,9 @@
-function Blockchain(){
+function Blockchain() {
     this.chain = [];
-    this.newTransactions= [];
+    this.newTransactions = [];
 }
 
-Blockchain.prototype.createNewBlock = function(nonce, previousBlockHash, hash) {
+Blockchain.prototype.createNewBlock = function (nonce, previousBlockHash, hash) {
     const newBlock = {
         index: this.chain.length + 1,
         timestamp: Date.now(),
@@ -19,5 +19,19 @@ Blockchain.prototype.createNewBlock = function(nonce, previousBlockHash, hash) {
     return newBlock;
 }
 
+Blockchain.prototype.getLastBlock = function () {
+    return this.chain[this.chain.length - 1]
+}
+
+
+Blockchain.prototype.createNewTransaction = function (amount, sender, recipient) {
+    const newTransaction = {
+        amount: amount,
+        sender: sender,
+        recipient: recipient
+    };
+    this.newTransactions.push(newTransaction);
+
+}
 
 module.exports = Blockchain;
