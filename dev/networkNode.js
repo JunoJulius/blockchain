@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 4242;
+const port = process.argv[2];
 const Blockchain = require('./blockchain');
 const uuid = require('uuid/v1');
 const realcoin = new Blockchain();

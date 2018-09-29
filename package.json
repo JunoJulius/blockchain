@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --watch dev -e js dev/api.js"
+    "node_1": "nodemon --watch dev -e js dev/networkNode.js 1212",
+    "node_2": "nodemon --watch dev -e js dev/networkNode.js 2222",
+    "node_3": "nodemon --watch dev -e js dev/networkNode.js 3232",
+    "node_4": "nodemon --watch dev -e js dev/networkNode.js 4242",
+    "node_5": "nodemon --watch dev -e js dev/networkNode.js 5252"
+
   },
   "keywords": [],
   "author": "",
