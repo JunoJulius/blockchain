@@ -10,8 +10,9 @@ app.get('/blockchain', function (req, res){
 
 // create a new transaction 
 app.post('/transaction', function (req, res){
+    console.log(req.body);
+    res.send(`the amount is ${req.body.amount} realcoin`)
 
-    
 });
 
 //mine a new block 
