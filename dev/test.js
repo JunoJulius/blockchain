@@ -2,28 +2,35 @@ const Blockchain = require('./blockchain');
 const realcoin = new Blockchain();
 
 
-const previousBlockHash = 'DFKJSDf837498374SDFSDF'
-const currentBlockData = [
-{
-    amount: 10,
-    sender: 'ASDKJDF834734#2',
-    recipient: 'ASDKJ3472934#SDFS'
-},
-{
-    amount: 90,
-    sender: 'KOWIDJS#22212',
-    recipient: 'LDKFIOERU#ASDHY8787EHSDFS'
-},
-{
-    amount: 120,
-    sender: 'DFKSIERI#09982',
-    recipient: 'DOIEKJS#SDSDAL8734JSHFS'
-}
-];
-const nonce = 100;
+
+console.log(realcoin);
 
 
-console.log(realcoin.hashBlock(previousBlockHash,currentBlockData, nonce));
+
+
+
+// const previousBlockHash = 'DFKJSDf837498374SDFSDF'
+// const currentBlockData = [
+// {
+//     amount: 10,
+//     sender: 'ASDKJDF834734#2',
+//     recipient: 'ASDKJ3472934#SDFS'
+// },
+// {
+//     amount: 90,
+//     sender: 'KOWIDJS#22212',
+//     recipient: 'LDKFIOERU#ASDHY8787EHSDFS'
+// },
+// {
+//     amount: 120,
+//     sender: 'DFKSIERI#09982',
+//     recipient: 'DOIEKJS#SDSDAL8734JSHFS'
+// }
+// ];
+
+// console.log(realcoin.hashBlock(previousBlockHash, currentBlockData, 128736));
+
+// console.log(realcoin.hashBlock(previousBlockHash,currentBlockData, nonce));
 // realcoin.createNewBlock(32421, 'SDFSDJFKKJ342FD', '23$KSJD324AKDO23');
 
 
