@@ -14,14 +14,13 @@ app.use(bodyParser.urlencoded({
 
 // fetch entire blockchain
 app.get('/blockchain', function (req, res) {
-res.send(realcoin);
+    res.send(realcoin);
 });
 
 // create a new transaction 
 app.post('/transaction', function (req, res) {
-    console.log(req.body);
-    res.send(`the amount is ${req.body.amount} realcoin`)
-
+    const blockIndex = realcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
+    res.json({ note: `Transaction will be added in block ${blockIndex}.`})
 });
 
 //mine a new block 
