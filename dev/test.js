@@ -8,6 +8,11 @@ realcoin.createNewTransaction(100, 'JUNOKALD827397SD', 'JULIUSAKSJ9823');
 
 realcoin.createNewBlock(7659, 'SSDG675HJJEQ', 'KOYU887QXTYR');
 
+realcoin.createNewTransaction(100, 'JUNOKALD827397SD', 'JULIUSAKSJ9823');
+realcoin.createNewTransaction(10000, 'JUNOKALD827397SD', 'JULIUSAKSJ9823');
+realcoin.createNewTransaction(23800, 'JUNOKALD827397SD', 'JULIUSAKSJ9823');
+
+realcoin.createNewBlock(823, 'KSDLA9823JFDKF', 'EIRIEUR8373KAL');
 
 
 console.log(realcoin);
