@@ -19,7 +19,7 @@ app.get('/blockchain', function (req, res) {
     res.send(realcoin);
 });
 
-// create a new transaction 
+// create a new transaction
 app.post('/transaction', function (req, res) {
     const blockIndex = realcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
     res.json({
@@ -27,7 +27,7 @@ app.post('/transaction', function (req, res) {
     })
 });
 
-//mine a new block 
+//mine a new block
 app.get('/mine', function (req, res) {
     const lastBlock = realcoin.getLastBlock();
     const previousBlockHash = lastBlock['hash'];
@@ -96,7 +96,13 @@ app.post('/register-node', function (req, res) {
 });
 // register multiple nodes at once
 app.post('/register-nodes-bulk', function (req, res) {
-
+  const allNetworkNodes = req.body.allNetworkNodes;
+  allNetworkNodes.forEach(networkNodeUrl => {
+     const nodeNotAlreadyPresent = realcoin.networkNodes.indexOf(networkNodeUrl) == -1;
+     const notCurrentNode = realcoin.currentNodeUrl !== networkNodeUrl;
+    if (nodeNotAlreadyPresent && notCurrentNode) realcoin.networkNodes.push(networkNodeUrl);
+  });
+  res.json({ note:  'Bulk registration succesfully.'})
 });
 
 app.listen(port, () => {
