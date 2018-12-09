@@ -30,8 +30,15 @@ app.post('/transaction', function (req, res) {
 app.post('/transaction/broadcast', function (req, res) {
 
     const newTransaction = realcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
-    
-
+    realcoin.addTransactionToPendingTransactions(newTransaction);
+    realcoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: networkNodeUrl + './transaction',
+            method: 'POST',
+            body: newTransaction,
+            json: true
+        };
+    });
 });
 
 
