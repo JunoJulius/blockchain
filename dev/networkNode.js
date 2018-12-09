@@ -21,16 +21,17 @@ app.get('/blockchain', function (req, res) {
 
 // create a new transaction
 app.post('/transaction', function (req, res) {
-    const blockIndex = realcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
-    res.json({
-        note: `Transaction will be added in block ${blockIndex}.`
-    })
+    const newTransaction = req.body;
+    const blockIndex = realcoin.addTransactionToPendingTransactions(newTransaction);
+    res.json({ note:   `Transaction will be added in block ${blockIndex}.` });
+    
 });
 
 app.post('/transaction/broadcast', function (req, res) {
 
     const newTransaction = realcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
     realcoin.addTransactionToPendingTransactions(newTransaction);
+    const requestPromises = [];
     realcoin.networkNodes.forEach(networkNodeUrl => {
         const requestOptions = {
             uri: networkNodeUrl + './transaction',
@@ -38,6 +39,11 @@ app.post('/transaction/broadcast', function (req, res) {
             body: newTransaction,
             json: true
         };
+        requestPromises.push(rp(requestOptions));
+    });
+    Promise.all(requestPromises)
+    .then(data => {
+        res.setDefaultEncoding({note: 'Transaction created and broadcasst successfully'});
     });
 });
 
