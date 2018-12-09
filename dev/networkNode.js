@@ -23,28 +23,34 @@ app.get('/blockchain', function (req, res) {
 app.post('/transaction', function (req, res) {
     const newTransaction = req.body;
     const blockIndex = realcoin.addTransactionToPendingTransactions(newTransaction);
-    res.json({ note:   `Transaction will be added in block ${blockIndex}.` });
-    
+    res.json({
+        note: `Transaction will be added in block ${blockIndex}.`
+    });
 });
 
+// broadcast transaction
 app.post('/transaction/broadcast', function (req, res) {
-
     const newTransaction = realcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
     realcoin.addTransactionToPendingTransactions(newTransaction);
+
     const requestPromises = [];
     realcoin.networkNodes.forEach(networkNodeUrl => {
         const requestOptions = {
-            uri: networkNodeUrl + './transaction',
+            uri: networkNodeUrl + '/transaction',
             method: 'POST',
             body: newTransaction,
             json: true
         };
+
         requestPromises.push(rp(requestOptions));
     });
+
     Promise.all(requestPromises)
-    .then(data => {
-        res.setDefaultEncoding({note: 'Transaction created and broadcasst successfully'});
-    });
+        .then(data => {
+            res.json({
+                note: 'Transaction created and broadcast successfully.'
+            });
+        });
 });
 
 
@@ -61,14 +67,41 @@ app.get('/mine', function (req, res) {
     const nonce = realcoin.proofOfWork(previousBlockHash, currentBlockData);
     const blockHash = realcoin.hashBlock(previousBlockHash, currentBlockData, nonce);
 
-    realcoin.createNewTransaction(4.2, "101", nodeAddress);
 
     const newBlock = realcoin.createNewBlock(nonce, previousBlockHash, blockHash);
-
-    res.json({
-        note: "New block mined succesfully",
-        block: newBlock
+    const requestPromises = [];
+    realcoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: "networkNodeUrl" + '/receive-new-bloxk',
+            method: 'POST',
+            body: {
+                newBlock: newBlock
+            },
+            json: true
+        };
+        requestPromises.push(rp(requestOptions));
     });
+    Promise.all(requestPromises)
+        .then(data => {
+            const requestOptions = {
+                uri: realcoin.currentNodeUrl + '/transaction/broadcast',
+                method: 'POST',
+                body: {
+                    amount: 12.5,
+                    sender: "101",
+                    recipient: nodeAddress
+                },
+                json: true
+            };
+            return rp(requestOptions);
+        })
+        .then(data => {
+            res.json({
+                note: "New block mined succesfully",
+                block: newBlock
+            });
+        });
+
 
 });
 
